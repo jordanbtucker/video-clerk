@@ -1,0 +1,60 @@
+{
+  "name": "video-clerk",
+  "version": "0.0.0",
+  "description": "A CLI for organizing movie and TV show files",
+  "bin": "lib/index.js",
+  "files": [
+    "lib"
+  ],
+  "engines": {
+    "node": ">=12.0.0"
+  },
+  "repository": {
+    "type": "git",
+    "url": "git+https://github.com/jordanbtucker/video-clerk.git"
+  },
+  "homepage": "https://github.com/jordanbtucker/video-clerk#readme",
+  "bugs": {
+    "url": "https://github.com/jordanbtucker/video-clerk/issues"
+  },
+  "author": {
+    "name": "Jordan Tucker",
+    "email": "jordanbtucker@gmail.com",
+    "url": "https://github.com/jordanbtucker"
+  },
+  "license": "MIT",
+  "keywords": [
+    "movies",
+    "tv",
+    "shows",
+    "episodes",
+    "rename",
+    "organize",
+    "plex"
+  ],
+  "scripts": {
+    "eslint": "eslint --fix .",
+    "lint": "run-s eslint prettier",
+    "prettier": "prettier --loglevel warn --write **/*.{js,json,md,yml}",
+    "preversion": "npm run lint",
+    "start": "node lib"
+  },
+  "dependencies": {
+    "conf": "^6.2.4",
+    "inquirer": "^7.1.0",
+    "node-fetch": "^2.6.0"
+  },
+  "devDependencies": {
+    "@commitlint/cli": "^8.3.5",
+    "@commitlint/config-conventional": "^8.3.4",
+    "eslint": "^7.0.0",
+    "eslint-config-prettier": "^6.11.0",
+    "eslint-plugin-import": "^2.20.2",
+    "eslint-plugin-node": "^11.1.0",
+    "eslint-plugin-promise": "^4.2.1",
+    "husky": "^4.2.5",
+    "lint-staged": "^10.2.2",
+    "npm-run-all": "^4.1.5",
+    "prettier": "^2.0.5"
+  }
+}
