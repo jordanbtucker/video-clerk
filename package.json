@@ -41,8 +41,8 @@
   },
   "dependencies": {
     "conf": "^6.2.4",
-    "inquirer": "^7.1.0",
-    "node-fetch": "^2.6.0"
+    "inquirer": "^7.3.3",
+    "node-fetch": "^2.6.1"
   },
   "devDependencies": {
     "@commitlint/cli": "^8.3.5",
