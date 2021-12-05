@@ -35,7 +35,7 @@
   "scripts": {
     "eslint": "eslint --fix .",
     "lint": "run-s eslint prettier",
-    "prettier": "prettier --loglevel warn --write **/*.{js,json,md,yml}",
+    "prettier": "prettier --loglevel warn -w .",
     "preversion": "npm run lint",
     "start": "node lib"
   },
