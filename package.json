@@ -36,6 +36,7 @@
   "scripts": {
     "eslint": "eslint --fix .",
     "lint": "run-s eslint prettier",
+    "prepare": "husky install",
     "prettier": "prettier --loglevel warn -w .",
     "preversion": "npm run lint",
     "start": "node lib"
@@ -53,7 +54,7 @@
     "eslint-plugin-import": "^2.25.3",
     "eslint-plugin-node": "^11.1.0",
     "eslint-plugin-promise": "^5.2.0",
-    "husky": "^4.2.5",
+    "husky": "^7.0.4",
     "lint-staged": "^12.1.2",
     "npm-run-all": "^4.1.5",
     "prettier": "^2.5.1"
