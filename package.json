@@ -39,7 +39,8 @@
     "prepare": "husky install",
     "prettier": "prettier --loglevel warn -w .",
     "preversion": "npm run lint",
-    "start": "node lib"
+    "start": "node lib",
+    "version": "git add CHANGELOG.md"
   },
   "dependencies": {
     "conf": "^10.1.1",
