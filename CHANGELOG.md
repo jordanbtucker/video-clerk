@@ -8,6 +8,11 @@ and this project adheres to
 
 ## Unreleased
 
+### Added
+
+- `*.mk3d` files are now renamed to `*.mkv` since Plex does not support `*.mk3d`
+  files. This setting can be configured.
+
 ## 0.5.0 - 2022-01-08
 
 ### Added
