@@ -11,6 +11,37 @@ and this project adheres to [Semantic Versioning](https://semver.org/spec/v2.0.0
 
 - `*.mk3d` files are now supported.
 
+## 0.4.1 - 2021-12-05
+
+### Fixed
+
+- Patched a security vulnerability.
+
+## 0.4.0 - 2021-12-05
+
+### Added
+
+- Command line arguments are now supported for overriding configuration on a per run basis.
+
+## 0.3.0 - 2021-06-07
+
+### Fixed
+
+- Spaces in filenames are now supported.
+
+## 0.2.1 - 2021-04-14
+
+### Fixed
+
+- Letter casing is ignored when matching.
+
+## 0.2.0 - 2020-07-06
+
+### Added
+
+- Episode numbers are shown in lists.
+- Data is cached to reduce API calls.
+
 ## 0.1.2 - 2020-06-15
 
 ### Fixed
