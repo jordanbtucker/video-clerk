@@ -8,6 +8,10 @@ and this project adheres to
 
 ## Unreleased
 
+### Fixed
+
+- Fixed a typo in the help.
+
 ## 0.6.2 - 2022-01-08
 
 ### Fixed
