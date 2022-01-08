@@ -8,6 +8,8 @@ and this project adheres to
 
 ## Unreleased
 
+## 0.6.1 - 2022-01-08
+
 ### Fixed
 
 - Fixed a bug that caused the Rename MK3D to MKV setting to not save.
