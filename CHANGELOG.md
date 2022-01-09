@@ -8,6 +8,11 @@ and this project adheres to
 
 ## Unreleased
 
+### Added
+
+- Spaces in filenames for movies are now supported. The year can be surrounded
+  by parentheses.
+
 ### Fixed
 
 - Fixed a bug that caused the the title from TMDb to not be used.
