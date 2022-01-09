@@ -10,6 +10,7 @@ and this project adheres to
 
 ### Fixed
 
+- Fixed a bug that caused the the title from TMDb to not be used.
 - Fixed a typo in the help.
 
 ## 0.6.2 - 2022-01-08
