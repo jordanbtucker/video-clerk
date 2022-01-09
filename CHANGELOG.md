@@ -55,7 +55,7 @@ and this project adheres to
 
 ### Fixed
 
-- Spaces in filenames are now supported.
+- Spaces in filenames for TV shows are now supported.
 
 ## 0.2.1 - 2021-04-14
 
