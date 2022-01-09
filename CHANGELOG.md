@@ -8,6 +8,8 @@ and this project adheres to
 
 ## Unreleased
 
+## 0.7.0 - 2022-01-08
+
 ### Added
 
 - Spaces in filenames for movies are now supported. The year can be surrounded
