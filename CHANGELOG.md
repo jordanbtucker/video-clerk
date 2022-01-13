@@ -8,6 +8,8 @@ and this project adheres to
 
 ## Unreleased
 
+## 0.7.1 - 2022-01-13
+
 ### Changed
 
 - Filenames will be shown instead of titles when multiple results are found.
