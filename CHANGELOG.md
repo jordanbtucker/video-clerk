@@ -8,6 +8,8 @@ and this project adheres to
 
 ## Unreleased
 
+## 0.8.0 - 2022-02-05
+
 ### Added
 
 - Years in TV show filenames are now supported.
