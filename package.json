@@ -1,6 +1,6 @@
 {
   "name": "video-clerk",
-  "version": "0.8.0",
+  "version": "1.0.0",
   "description": "A CLI for organizing movie and TV show files",
   "bin": "lib/index.js",
   "files": [

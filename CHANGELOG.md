@@ -8,6 +8,8 @@ and this project adheres to
 
 ## Unreleased
 
+## 1.0.0 - 2022-09-04
+
 ### BREAKING CHANGES
 
 - Support for Node.js v12 has been removed. The mimimum supported version is
