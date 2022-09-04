@@ -8,6 +8,10 @@ and this project adheres to
 
 ## Unreleased
 
+### Changed
+
+- Fixed a bug where inquirer only supported `import` instead of `require`.
+
 ## 1.0.0 - 2022-09-04
 
 ### BREAKING CHANGES
