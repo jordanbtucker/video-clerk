@@ -7,7 +7,7 @@
     "lib"
   ],
   "engines": {
-    "node": "^12 || ^14 || >=16",
+    "node": "^14 || ^16 || >=18",
     "npm": ">=7"
   },
   "repository": {
@@ -43,21 +43,21 @@
     "version": "git add CHANGELOG.md"
   },
   "dependencies": {
-    "conf": "^10.1.1",
-    "cross-fetch": "^3.1.4",
-    "inquirer": "^8.2.0"
+    "conf": "^10.2.0",
+    "cross-fetch": "^3.1.5",
+    "inquirer": "^9.1.1"
   },
   "devDependencies": {
-    "@commitlint/cli": "^15.0.0",
-    "@commitlint/config-conventional": "^15.0.0",
-    "eslint": "^7.32.0",
-    "eslint-config-prettier": "^8.3.0",
-    "eslint-plugin-import": "^2.25.3",
+    "@commitlint/cli": "^17.1.2",
+    "@commitlint/config-conventional": "^17.1.0",
+    "eslint": "^8.23.0",
+    "eslint-config-prettier": "^8.5.0",
+    "eslint-plugin-import": "^2.26.0",
     "eslint-plugin-node": "^11.1.0",
-    "eslint-plugin-promise": "^5.2.0",
-    "husky": "^7.0.4",
-    "lint-staged": "^12.1.2",
+    "eslint-plugin-promise": "^6.0.1",
+    "husky": "^8.0.1",
+    "lint-staged": "^13.0.3",
     "npm-run-all": "^4.1.5",
-    "prettier": "^2.5.1"
+    "prettier": "^2.7.1"
   }
 }

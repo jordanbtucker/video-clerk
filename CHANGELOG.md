@@ -8,6 +8,11 @@ and this project adheres to
 
 ## Unreleased
 
+### BREAKING CHANGES
+
+- Support for Node.js v12 has been removed. The mimimum supported version is
+  v14.
+
 ### Added
 
 - Support for TV show years and season/episode number separates by space wrapped
