@@ -8,6 +8,11 @@ and this project adheres to
 
 ## Unreleased
 
+### Added
+
+- Support for TV show years and season/episode number separates by space wrapped
+  hyphens, e.g. `The Office (2005) - S01E01 - Pilot.mkv`.
+
 ## 0.8.0 - 2022-02-05
 
 ### Added
