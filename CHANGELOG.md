@@ -8,6 +8,11 @@ and this project adheres to
 
 ## Unreleased
 
+### Added
+
+- A second episode can be matched in a filename, e.g.
+  `The Office (2005) - S01E01-E02.mkv`.
+
 ## 1.0.1 - 2022-09-04
 
 ### Changed
