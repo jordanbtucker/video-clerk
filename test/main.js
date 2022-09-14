@@ -56,7 +56,7 @@ const DEFAULT_MOCK_CROSS_FETCH_PACKAGE_STATE = {
 /**
  * @param {MockAppModuleOptions} [options]
  */
-function requireMockAppModule({
+function requireMockMainModule({
   fsPackageState,
   confPackageState,
   crossFetchPackageState,
@@ -71,8 +71,8 @@ function requireMockAppModule({
   )
   const mockInquirerPackage = createMockInquirerPackage(inquirerPackageState)
 
-  /** @type {typeof import('../lib/app')} */
-  const mockAppModule = t.mock('../lib/app', {
+  /** @type {typeof import('../lib/main')} */
+  const mockAppModule = t.mock('../lib/main', {
     fs: mockFSPackage,
     inquirer: mockInquirerPackage,
     'cross-fetch': mockCrossFetchPackage,
@@ -91,7 +91,7 @@ t.test('conf', async t => {
 
   const mockConfPackageState = {values: {}}
 
-  const App = requireMockAppModule({
+  const {main} = requireMockMainModule({
     fsPackageState: mockFSPackageState,
     confPackageState: mockConfPackageState,
     inquirerPackageState: {
@@ -132,8 +132,7 @@ t.test('conf', async t => {
     },
   })
 
-  const app = new App()
-  await app.run()
+  await main()
 
   t.strictSame(
     mockConfPackageState.values,
@@ -158,7 +157,7 @@ t.test('movies', async t => {
       },
     }
 
-    const App = requireMockAppModule({
+    const {main} = requireMockMainModule({
       fsPackageState: mockFSPackageState,
       inquirerPackageState: {
         answers: [
@@ -173,8 +172,7 @@ t.test('movies', async t => {
       },
     })
 
-    const app = new App()
-    await app.run()
+    await main()
 
     t.strictSame(
       mockFSPackageState.entries,
@@ -199,7 +197,7 @@ t.test('movies', async t => {
       },
     }
 
-    const App = requireMockAppModule({
+    const {main} = requireMockMainModule({
       fsPackageState: mockFSPackageState,
       inquirerPackageState: {
         answers: [
@@ -210,8 +208,7 @@ t.test('movies', async t => {
       },
     })
 
-    const app = new App()
-    await app.run()
+    await main()
 
     t.strictSame(
       mockFSPackageState.entries,
@@ -248,7 +245,7 @@ t.test('shows', async t => {
       },
     }
 
-    const App = requireMockAppModule({
+    const {main} = requireMockMainModule({
       fsPackageState: mockFSPackageState,
       inquirerPackageState: {
         answers: [
@@ -285,8 +282,7 @@ t.test('shows', async t => {
       },
     })
 
-    const app = new App()
-    await app.run()
+    await main()
 
     t.strictSame(
       mockFSPackageState.entries,
@@ -328,7 +324,7 @@ t.test('shows', async t => {
       },
     }
 
-    const App = requireMockAppModule({
+    const {main} = requireMockMainModule({
       fsPackageState: mockFSPackageState,
       inquirerPackageState: {
         answers: [
@@ -341,8 +337,7 @@ t.test('shows', async t => {
       },
     })
 
-    const app = new App()
-    await app.run()
+    await main()
 
     t.strictSame(
       mockFSPackageState.entries,
