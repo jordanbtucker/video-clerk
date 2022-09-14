@@ -4,6 +4,7 @@ const {clone, immediate} = require('./util')
  * @typedef MockCrossFetchPackageState
  * @property {import('./util').TMDbMovie[]} [movies]
  * @property {import('./util').TMDbShow[]} [shows]
+ * @property {boolean} [returnMultipleResults]
  */
 
 /**
@@ -18,10 +19,8 @@ class MockCrossFetchPackage {
    * @param {MockCrossFetchPackageState} state
    */
   constructor(state) {
-    /** @type {import('./util').TMDbMovie[]} */
-    this.movies = (state && state.movies) || []
-    /** @type {import('./util').TMDbShow[]} */
-    this.shows = (state && state.shows) || []
+    /** @type {MockCrossFetchPackageState} */
+    this._state = state || {movies: [], shows: []}
 
     this.default = this.default.bind(this)
   }
@@ -30,7 +29,7 @@ class MockCrossFetchPackage {
    * @param {string | URL} url
    */
   async default(url) {
-    return immediate(new MockCrossFetchResponse(this, new URL(url)))
+    return immediate(new MockCrossFetchResponse(this._state, new URL(url)))
   }
 }
 
@@ -40,7 +39,7 @@ class MockCrossFetchResponse {
    * @param {URL} url
    */
   constructor(state, url) {
-    /** @type {MockCrossFetchPackage} */
+    /** @type {MockCrossFetchPackageState} */
     this._state = state
     /** @type {URL} */
     this._url = url
@@ -50,7 +49,7 @@ class MockCrossFetchResponse {
     if (url.pathname.endsWith('/search/movie')) {
       const title = url.searchParams.get('query')
       const movies = this._state.movies.filter(movie =>
-        movie.title.includes(title),
+        this._state.returnMultipleResults ? true : movie.title.includes(title),
       )
       this._body = {results: movies}
       return this._ok()
@@ -58,7 +57,9 @@ class MockCrossFetchResponse {
 
     if (url.pathname.endsWith('/search/tv')) {
       const title = url.searchParams.get('query')
-      const shows = this._state.shows.filter(show => show.name.includes(title))
+      const shows = this._state.shows.filter(show =>
+        this._state.returnMultipleResults ? true : show.name.includes(title),
+      )
       this._body = {results: shows}
       return this._ok()
     }

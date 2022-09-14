@@ -26,6 +26,11 @@ const {
   TEST_OUTPUT_SHOW_DIR_PATH,
   TEST_OUTPUT_SHOW_SEASON_DIR_PATH,
   TEST_OUTPUT_SHOW_FILE_PATH,
+  TEST_NO_RESULTS_ANSWER,
+  TEST_MOVIE_TITLE,
+  TEST_INVALID_PATTERN_ANSWER,
+  TEST_SKIPPING_ANSWER,
+  TEST_MULTIPLE_RESULTS_ANSWER,
 } = require('./util')
 
 /** @type {import('./mock-conf-package').MockConfPackageState} */
@@ -219,8 +224,232 @@ t.test('movies', async t => {
         [TEST_OUTPUT_MOVIE_FILE_PATH(1)]: 'file',
         [TEST_INPUT_MOVIE_FILE_PATH(2)]: 'file',
       },
-      'files renamed',
+      'file renamed',
     )
+  })
+
+  t.test('no match', async t => {
+    t.test('provide title', async t => {
+      const mockFSPackageState = {
+        entries: {
+          [TEST_INPUT_DIR()]: 'directory',
+          [TEST_INPUT_MOVIE_FILE_PATH(4)]: 'file',
+        },
+      }
+
+      const {main} = requireMockMainModule({
+        fsPackageState: mockFSPackageState,
+        inquirerPackageState: {
+          answers: [
+            TEST_MODE_ANSWER('movies'),
+            TEST_FILES_ANSWER([TEST_INPUT_MOVIE_FILE_NAME(4)]),
+            TEST_NO_RESULTS_ANSWER(TEST_MOVIE_TITLE(4), TEST_MOVIE_TITLE(1)),
+            TEST_MOVIE_RENAME_ANSWER(4, {outputIndex: 1}),
+          ],
+        },
+      })
+
+      await main()
+
+      t.strictSame(
+        mockFSPackageState.entries,
+        {
+          [TEST_INPUT_DIR()]: 'directory',
+          [TEST_MOVIES_DIR()]: 'directory',
+          [TEST_OUTPUT_MOVIE_DIR_PATH(1)]: 'directory',
+          [TEST_OUTPUT_MOVIE_FILE_PATH(1)]: 'file',
+        },
+        'file renamed',
+      )
+    })
+
+    t.test('skip file', async t => {
+      const mockFSPackageState = {
+        entries: {
+          [TEST_INPUT_DIR()]: 'directory',
+          [TEST_INPUT_MOVIE_FILE_PATH(4)]: 'file',
+        },
+      }
+
+      const {main} = requireMockMainModule({
+        fsPackageState: mockFSPackageState,
+        inquirerPackageState: {
+          answers: [
+            TEST_MODE_ANSWER('movies'),
+            TEST_FILES_ANSWER([TEST_INPUT_MOVIE_FILE_NAME(4)]),
+            TEST_NO_RESULTS_ANSWER(TEST_MOVIE_TITLE(4), null),
+            TEST_SKIPPING_ANSWER(TEST_INPUT_MOVIE_FILE_NAME(4)),
+          ],
+        },
+      })
+
+      await main()
+
+      t.strictSame(
+        mockFSPackageState.entries,
+        {
+          [TEST_INPUT_DIR()]: 'directory',
+          [TEST_INPUT_MOVIE_FILE_PATH(4)]: 'file',
+        },
+        'file skipped',
+      )
+    })
+  })
+
+  t.test('invalid pattern', async t => {
+    t.test('provide title', async t => {
+      const mockFSPackageState = {
+        entries: {
+          [TEST_INPUT_DIR()]: 'directory',
+          [TEST_INPUT_MOVIE_FILE_PATH(1, {hasValidPattern: false})]: 'file',
+        },
+      }
+
+      const {main} = requireMockMainModule({
+        fsPackageState: mockFSPackageState,
+        inquirerPackageState: {
+          answers: [
+            TEST_MODE_ANSWER('movies'),
+            TEST_FILES_ANSWER([
+              TEST_INPUT_MOVIE_FILE_NAME(1, {hasValidPattern: false}),
+            ]),
+            TEST_INVALID_PATTERN_ANSWER(
+              TEST_INPUT_MOVIE_FILE_NAME(1, {hasValidPattern: false}),
+              TEST_MOVIE_TITLE(1),
+            ),
+            TEST_MOVIE_RENAME_ANSWER(1, {hasValidPattern: false}),
+          ],
+        },
+      })
+
+      await main()
+
+      t.strictSame(
+        mockFSPackageState.entries,
+        {
+          [TEST_INPUT_DIR()]: 'directory',
+          [TEST_MOVIES_DIR()]: 'directory',
+          [TEST_OUTPUT_MOVIE_DIR_PATH(1)]: 'directory',
+          [TEST_OUTPUT_MOVIE_FILE_PATH(1)]: 'file',
+        },
+        'file renamed',
+      )
+    })
+
+    t.test('skip file', async t => {
+      const mockFSPackageState = {
+        entries: {
+          [TEST_INPUT_DIR()]: 'directory',
+          [TEST_INPUT_MOVIE_FILE_PATH(1, {hasValidPattern: false})]: 'file',
+        },
+      }
+
+      const {main} = requireMockMainModule({
+        fsPackageState: mockFSPackageState,
+        inquirerPackageState: {
+          answers: [
+            TEST_MODE_ANSWER('movies'),
+            TEST_FILES_ANSWER([
+              TEST_INPUT_MOVIE_FILE_NAME(1, {hasValidPattern: false}),
+            ]),
+            TEST_INVALID_PATTERN_ANSWER(
+              TEST_INPUT_MOVIE_FILE_NAME(1, {hasValidPattern: false}),
+              null,
+            ),
+            TEST_SKIPPING_ANSWER(
+              TEST_INPUT_MOVIE_FILE_NAME(1, {hasValidPattern: false}),
+            ),
+          ],
+        },
+      })
+
+      await main()
+
+      t.strictSame(
+        mockFSPackageState.entries,
+        {
+          [TEST_INPUT_DIR()]: 'directory',
+          [TEST_INPUT_MOVIE_FILE_PATH(1, {hasValidPattern: false})]: 'file',
+        },
+        'file skipped',
+      )
+    })
+  })
+
+  t.test('multiple results', async t => {
+    t.test('select result', async t => {
+      const mockFSPackageState = {
+        entries: {
+          [TEST_INPUT_DIR()]: 'directory',
+          [TEST_INPUT_MOVIE_FILE_PATH(1)]: 'file',
+        },
+      }
+
+      const {main} = requireMockMainModule({
+        fsPackageState: mockFSPackageState,
+        crossFetchPackageState: {
+          ...DEFAULT_MOCK_CROSS_FETCH_PACKAGE_STATE,
+          returnMultipleResults: true,
+        },
+        inquirerPackageState: {
+          answers: [
+            TEST_MODE_ANSWER('movies'),
+            TEST_FILES_ANSWER([TEST_INPUT_MOVIE_FILE_NAME(1)]),
+            TEST_MULTIPLE_RESULTS_ANSWER(TEST_INPUT_MOVIE_FILE_NAME(1), 1),
+            TEST_MOVIE_RENAME_ANSWER(1),
+          ],
+        },
+      })
+
+      await main()
+
+      t.strictSame(
+        mockFSPackageState.entries,
+        {
+          [TEST_INPUT_DIR()]: 'directory',
+          [TEST_MOVIES_DIR()]: 'directory',
+          [TEST_OUTPUT_MOVIE_DIR_PATH(1)]: 'directory',
+          [TEST_OUTPUT_MOVIE_FILE_PATH(1)]: 'file',
+        },
+        'file renamed',
+      )
+    })
+
+    t.test('skip results', async t => {
+      const mockFSPackageState = {
+        entries: {
+          [TEST_INPUT_DIR()]: 'directory',
+          [TEST_INPUT_MOVIE_FILE_PATH(1)]: 'file',
+        },
+      }
+
+      const {main} = requireMockMainModule({
+        fsPackageState: mockFSPackageState,
+        crossFetchPackageState: {
+          ...DEFAULT_MOCK_CROSS_FETCH_PACKAGE_STATE,
+          returnMultipleResults: true,
+        },
+        inquirerPackageState: {
+          answers: [
+            TEST_MODE_ANSWER('movies'),
+            TEST_FILES_ANSWER([TEST_INPUT_MOVIE_FILE_NAME(1)]),
+            TEST_MULTIPLE_RESULTS_ANSWER(TEST_INPUT_MOVIE_FILE_NAME(1), null),
+            TEST_SKIPPING_ANSWER(TEST_INPUT_MOVIE_FILE_NAME(1)),
+          ],
+        },
+      })
+
+      await main()
+
+      t.strictSame(
+        mockFSPackageState.entries,
+        {
+          [TEST_INPUT_DIR()]: 'directory',
+          [TEST_INPUT_MOVIE_FILE_PATH(1)]: 'file',
+        },
+        'file renamed',
+      )
+    })
   })
 })
 
@@ -349,7 +578,7 @@ t.test('shows', async t => {
         [TEST_OUTPUT_SHOW_FILE_PATH(1, {season: 1, episode: 1})]: 'file',
         [TEST_INPUT_SHOW_FILE_PATH(1, {season: 1, episode: 2})]: 'file',
       },
-      'files renamed',
+      'file renamed',
     )
   })
 })

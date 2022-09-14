@@ -69,10 +69,29 @@ const TEST_MOVIE_TITLE = (index = 1) => `Test Movie ${index}`
 const TEST_SHOW_TITLE = (index = 1) => `Test Show ${index}`
 const TEST_EPISODE_TITLE = (index = 1) => `Test Episode ${index}`
 
-const TEST_INPUT_MOVIE_FILE_NAME = (index = 1) =>
-  `Test.Movie.${index}.${TEST_YEAR()}.mkv`
-const TEST_INPUT_MOVIE_FILE_PATH = (index = 1) =>
-  join(TEST_INPUT_DIR(), TEST_INPUT_MOVIE_FILE_NAME(index))
+/**
+ * @typedef TestInputMovieFileOptions
+ * @property {number} [year]
+ * @property {boolean} [hasValidPattern]
+ */
+
+/**
+ * @param {number} index
+ * @param {TestInputMovieFileOptions} [options]
+ */
+const TEST_INPUT_MOVIE_FILE_NAME = (index = 1, options) => {
+  const {year, hasValidPattern} = {year: 1, hasValidPattern: true, ...options}
+  return `Test.Movie.${index}${
+    hasValidPattern ? `.${TEST_YEAR(year)}` : ''
+  }.mkv`
+}
+
+/**
+ * @param {number} index
+ * @param {TestInputMovieFileOptions} [options]
+ */
+const TEST_INPUT_MOVIE_FILE_PATH = (index = 1, options) =>
+  join(TEST_INPUT_DIR(), TEST_INPUT_MOVIE_FILE_NAME(index, options))
 
 const TEST_OUTPUT_MOVIE_DIR_NAME = (index = 1) =>
   `${TEST_MOVIE_TITLE(index)} (${TEST_YEAR()})`
@@ -199,18 +218,41 @@ const TEST_FILES_ANSWER = filenames => ({
   answer: filenames,
 })
 
-const TEST_MOVIE_RENAME_QUESTION = (index = 1) => {
+/**
+ * @typedef TestMovieRenameQuestionOptions
+ * @property {number} [outputIndex]
+ */
+
+/**
+ * @param {number} index
+ * @param {TestMovieRenameQuestionOptions & TestInputMovieFileOptions} [options]
+ */
+const TEST_MOVIE_RENAME_QUESTION = (index = 1, options) => {
+  const {outputIndex, ...fileOptions} = {outputIndex: index, ...options}
   return TEST_CONFIRM_QUESTION(
     `Rename ${TEST_INPUT_MOVIE_FILE_NAME(
       index,
-    )} to ${TEST_OUTPUT_MOVIE_FILE_PATH(index)}?`,
+      fileOptions,
+    )} to ${TEST_OUTPUT_MOVIE_FILE_PATH(outputIndex)}?`,
   )
 }
 
-const TEST_MOVIE_RENAME_ANSWER = (index = 1, value = true) => ({
-  question: TEST_MOVIE_RENAME_QUESTION(index),
-  answer: value,
-})
+/**
+ * @typedef TestMovieRenameAnswerOptions
+ * @property {string} answer
+ */
+
+/**
+ * @param {number} index
+ * @param {TestMovieRenameAnswerOptions & TestMovieRenameQuestionOptions & TestInputMovieFileOptions} [options]
+ */
+const TEST_MOVIE_RENAME_ANSWER = (index = 1, options) => {
+  const {answer, ...questionOptions} = {answer: true, ...options}
+  return {
+    question: TEST_MOVIE_RENAME_QUESTION(index, questionOptions),
+    answer,
+  }
+}
 
 /**
  * @param {number} index
@@ -228,11 +270,78 @@ const TEST_SHOW_RENAME_QUESTION = (index = 1, options) => {
 /**
  * @param {number} index
  * @param {TestInputShowFilenameOptions} [options]
- * @param {boolean} [value]
+ * @param {boolean} [answer]
  */
-const TEST_SHOW_RENAME_ANSWER = (index = 1, options, value = true) => ({
+const TEST_SHOW_RENAME_ANSWER = (index = 1, options, answer = true) => ({
   question: TEST_SHOW_RENAME_QUESTION(index, options),
-  answer: value,
+  answer,
+})
+
+/**
+ * @param {string} filename
+ */
+const TEST_MULTIPLE_RESULTS_QUESTION = filename => ({
+  type: 'list',
+  name: 'choice',
+  message: `Multiple results found for ${filename}. Please select one.`,
+})
+
+/**
+ * @param {string} filename
+ * @param {number | null} answer
+ */
+const TEST_MULTIPLE_RESULTS_ANSWER = (filename, answer) => ({
+  question: TEST_MULTIPLE_RESULTS_QUESTION(filename),
+  answer,
+})
+
+/**
+ * @param {string} filename
+ */
+const TEST_INVALID_PATTERN_QUESTION = filename =>
+  TEST_INPUT_QUESTION(
+    `Unable to determine title from ${filename}. Please enter a title, or leave blank to skip:`,
+  )
+
+/**
+ * @param {string} filename
+ * @param {string | null} answer
+ */
+const TEST_INVALID_PATTERN_ANSWER = (filename, answer) => ({
+  question: TEST_INVALID_PATTERN_QUESTION(filename),
+  answer,
+})
+
+/**
+ * @param {string | null} title
+ */
+const TEST_NO_RESULTS_QUESTION = title =>
+  TEST_INPUT_QUESTION(
+    `No results found for ${title}. Please enter a title, or leave blank to skip:`,
+  )
+
+/**
+ * @param {string} title
+ * @param {string | null} answer
+ */
+const TEST_NO_RESULTS_ANSWER = (title, answer) => ({
+  question: TEST_NO_RESULTS_QUESTION(title),
+  answer,
+})
+
+/**
+ * @param {string} filename
+ */
+const TEST_SKIPPING_QUESTION = filename => ({
+  type: 'list',
+  name: 'choice',
+  message: `Skipping ${filename}.`,
+  choices: ['OK'],
+})
+
+const TEST_SKIPPING_ANSWER = filename => ({
+  question: TEST_SKIPPING_QUESTION(filename),
+  answer: 'OK',
 })
 
 /**
@@ -287,6 +396,7 @@ module.exports = {
   TEST_INPUT_DIR,
   TEST_MOVIES_DIR,
   TEST_SHOWS_DIR,
+  TEST_MOVIE_TITLE,
   TEST_INPUT_MOVIE_FILE_NAME,
   TEST_INPUT_MOVIE_FILE_PATH,
   TEST_INPUT_SHOW_FILE_NAME,
@@ -297,6 +407,10 @@ module.exports = {
   TEST_FILES_ANSWER,
   TEST_MOVIE_RENAME_ANSWER,
   TEST_SHOW_RENAME_ANSWER,
+  TEST_MULTIPLE_RESULTS_ANSWER,
+  TEST_INVALID_PATTERN_ANSWER,
+  TEST_NO_RESULTS_ANSWER,
+  TEST_SKIPPING_ANSWER,
   TEST_OUTPUT_MOVIE_DIR_PATH,
   TEST_OUTPUT_MOVIE_FILE_PATH,
   TEST_OUTPUT_SHOW_DIR_PATH,
