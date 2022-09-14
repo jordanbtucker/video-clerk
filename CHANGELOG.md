@@ -8,6 +8,10 @@ and this project adheres to
 
 ## Unreleased
 
+### BREAKING CHANGES
+
+- Years are always included in TV show folders and filenames.
+
 ### Fixed
 
 - Fixed a bug where a second episode number was erroneously matched.
