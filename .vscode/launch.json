@@ -8,8 +8,7 @@
       "type": "node",
       "request": "launch",
       "name": "Launch Program",
-      "program": "${workspaceFolder}\\lib\\index.js",
-      "console": "integratedTerminal",
+      "program": "${file}",
       "skipFiles": ["node_modules/**", "<node_internals>/**"]
     }
   ]
