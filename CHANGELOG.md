@@ -6,6 +6,14 @@ The format is based on [Keep a Changelog](https://keepachangelog.com/en/1.0.0/),
 and this project adheres to
 [Semantic Versioning](https://semver.org/spec/v2.0.0.html).
 
+## Unreleased
+
+### Added
+
+- When no results are found, you are now prompted to enter a title.
+- Files can be skipped by entering a blank title when prompted or by choosing
+  the Skip option in a list of results.
+
 ## 2.0.1 - 2022-09-14
 
 ### Fixed
