@@ -41,7 +41,7 @@
     "prettier": "prettier --loglevel warn -w .",
     "preversion": "npm test",
     "start": "node lib",
-    "tap": "tap -R spec test",
+    "tap": "tap -R spec --no-check-coverage test",
     "tap:coverage": "tap --coverage-report html",
     "test": "run-s lint tap",
     "version": "git add CHANGELOG.md"
