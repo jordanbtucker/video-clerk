@@ -34,12 +34,15 @@
     "plex"
   ],
   "scripts": {
+    "coverage": "run-s -c tap tap:coverage",
     "eslint": "eslint --fix .",
     "lint": "run-s eslint prettier",
     "prepare": "husky install",
     "prettier": "prettier --loglevel warn -w .",
     "preversion": "npm run lint",
     "start": "node lib",
+    "tap": "tap -R spec --no-check-coverage test",
+    "tap:coverage": "tap --coverage-report html",
     "version": "git add CHANGELOG.md"
   },
   "dependencies": {
@@ -58,6 +61,7 @@
     "husky": "^8.0.1",
     "lint-staged": "^13.0.3",
     "npm-run-all": "^4.1.5",
-    "prettier": "^2.7.1"
+    "prettier": "^2.7.1",
+    "tap": "^16.3.0"
   }
 }
