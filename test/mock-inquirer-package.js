@@ -71,9 +71,13 @@ class MockInquirerPackage {
         )
       }
 
-      if (question.type === 'confirm' && typeof answer !== 'boolean') {
+      if (
+        question.type === 'confirm' &&
+        typeof answer !== 'boolean' &&
+        answer !== null
+      ) {
         throw new Error(
-          `Test question expected a boolean: ${question.message} = ${answer}`,
+          `Test question expected a boolean or null: ${question.message} = ${answer}`,
         )
       }
 
