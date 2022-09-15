@@ -5,8 +5,10 @@
 
 A CLI for organizing movie and TV show files.
 
-As of now, it fetches information from [TMDb](https://www.themoviedb.org/) and
-moves and renames your video files.
+As of now, it fetches information from
+[The Movie Database](https://www.themoviedb.org/) and moves and renames your
+video files using the
+[Plex format](https://support.plex.tv/articles/naming-and-organizing-your-movie-media-files/).
 
 ## Installation
 
@@ -21,8 +23,8 @@ video-clerk
 ```
 
 On first run, you'll be asked to supply some configuration information,
-including an access token for TheMovieDB and the location of your video files.
-After that, just follow the prompts.
+including an [access token](https://www.themoviedb.org/settings/api) for TMDB
+and the location of your video files. After that, just follow the prompts.
 
 You can also supply the configuration information via command line arguments.
 Use the `--help` argument for more information.
