@@ -14,6 +14,11 @@ and this project adheres to
 - Files can be skipped by entering a blank title when prompted or by choosing
   the Skip option in a list of results.
 
+### Fixed
+
+- Fixed a bug where the second episode title would not be appended to the
+  filename if it could not be matched but was selected from a list.
+
 ## 2.0.1 - 2022-09-14
 
 ### Fixed
