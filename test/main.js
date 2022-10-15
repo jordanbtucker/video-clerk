@@ -5,7 +5,7 @@ const {createMockCrossFetchPackage} = require('./mock-cross-fetch-package')
 const {createMockFSPackage} = require('./mock-fs-package')
 const {createMockInquirerPackage} = require('./mock-inquirer-package')
 const {
-  clone,
+  TEST_PROFILE_NAME,
   TEST_TMDB_ACCESS_TOKEN,
   TEST_TMDB_ACCESS_TOKEN_ANSWER,
   TEST_TMDB_MOVIE,
@@ -42,16 +42,19 @@ const {
   TEST_SKIPPING_ANSWER,
 } = require('./util')
 
+const DEFAULT_PROFILE_NAME = 'default'
+
 /** @type {import('./mock-conf-package').MockConfPackageState} */
-const DEFAULT_MOCK_CONF_PACKAGE_STATE = {
+const DEFAULT_MOCK_CONF_PACKAGE_STATE = (profile = DEFAULT_PROFILE_NAME) => ({
   values: {
-    tmdbAccessToken: TEST_TMDB_ACCESS_TOKEN,
-    inputDir: TEST_INPUT_DIR,
-    moviesDir: TEST_MOVIES_DIR,
-    showsDir: TEST_SHOWS_DIR,
-    renameMK3DToMKV: true,
+    version: 2,
+    [`profiles.${profile}.tmdbAccessToken`]: TEST_TMDB_ACCESS_TOKEN,
+    [`profiles.${profile}.inputDir`]: TEST_INPUT_DIR,
+    [`profiles.${profile}.moviesDir`]: TEST_MOVIES_DIR,
+    [`profiles.${profile}.showsDir`]: TEST_SHOWS_DIR,
+    [`profiles.${profile}.renameMK3DToMKV`]: true,
   },
-}
+})
 
 /** @type {import('./mock-cross-fetch-package').MockCrossFetchPackageState} */
 const DEFAULT_MOCK_CROSS_FETCH_PACKAGE_STATE = {
@@ -78,7 +81,7 @@ function requireMockMainModule({
 } = {}) {
   const mockFSPackage = createMockFSPackage(fsPackageState || {})
   const mockConfPackage = createMockConfPackage(
-    confPackageState || clone(DEFAULT_MOCK_CONF_PACKAGE_STATE),
+    confPackageState || DEFAULT_MOCK_CONF_PACKAGE_STATE(),
   )
   const mockCrossFetchPackage = createMockCrossFetchPackage(
     crossFetchPackageState || DEFAULT_MOCK_CROSS_FETCH_PACKAGE_STATE,
@@ -127,11 +130,13 @@ t.test('conf', async t => {
     t.strictSame(
       mockConfPackageState.values,
       {
-        tmdbAccessToken: TEST_TMDB_ACCESS_TOKEN,
-        inputDir: TEST_INPUT_DIR,
-        moviesDir: TEST_MOVIES_DIR,
-        showsDir: TEST_SHOWS_DIR,
-        renameMK3DToMKV: true,
+        version: 2,
+        [`profiles.${DEFAULT_PROFILE_NAME}.tmdbAccessToken`]:
+          TEST_TMDB_ACCESS_TOKEN,
+        [`profiles.${DEFAULT_PROFILE_NAME}.inputDir`]: TEST_INPUT_DIR,
+        [`profiles.${DEFAULT_PROFILE_NAME}.moviesDir`]: TEST_MOVIES_DIR,
+        [`profiles.${DEFAULT_PROFILE_NAME}.showsDir`]: TEST_SHOWS_DIR,
+        [`profiles.${DEFAULT_PROFILE_NAME}.renameMK3DToMKV`]: true,
       },
       'conf matches',
     )
@@ -144,7 +149,7 @@ t.test('conf', async t => {
       },
     }
 
-    const mockConfPackageState = {...DEFAULT_MOCK_CONF_PACKAGE_STATE}
+    const mockConfPackageState = DEFAULT_MOCK_CONF_PACKAGE_STATE()
 
     const {main} = requireMockMainModule({
       fsPackageState: mockFSPackageState,
@@ -159,11 +164,13 @@ t.test('conf', async t => {
     t.strictSame(
       mockConfPackageState.values,
       {
-        tmdbAccessToken: TEST_TMDB_ACCESS_TOKEN,
-        inputDir: TEST_INPUT_DIR,
-        moviesDir: TEST_MOVIES_DIR,
-        showsDir: TEST_SHOWS_DIR,
-        renameMK3DToMKV: true,
+        version: 2,
+        [`profiles.${DEFAULT_PROFILE_NAME}.tmdbAccessToken`]:
+          TEST_TMDB_ACCESS_TOKEN,
+        [`profiles.${DEFAULT_PROFILE_NAME}.inputDir`]: TEST_INPUT_DIR,
+        [`profiles.${DEFAULT_PROFILE_NAME}.moviesDir`]: TEST_MOVIES_DIR,
+        [`profiles.${DEFAULT_PROFILE_NAME}.showsDir`]: TEST_SHOWS_DIR,
+        [`profiles.${DEFAULT_PROFILE_NAME}.renameMK3DToMKV`]: true,
       },
       'conf matches',
     )
@@ -318,6 +325,40 @@ t.test('conf', async t => {
 
     process.exitCode = 0
   })
+
+  t.test('migrates', async t => {
+    const mockFSPackageState = {
+      entries: {
+        [TEST_INPUT_DIR]: 'directory',
+      },
+    }
+
+    const mockConfPackageState = {
+      values: {
+        tmdbAccessToken: TEST_TMDB_ACCESS_TOKEN,
+        inputDir: TEST_INPUT_DIR,
+        moviesDir: TEST_MOVIES_DIR,
+        showsDir: TEST_SHOWS_DIR,
+        renameMK3DToMKV: true,
+      },
+    }
+
+    const {main} = requireMockMainModule({
+      fsPackageState: mockFSPackageState,
+      confPackageState: mockConfPackageState,
+      inquirerPackageState: {
+        answers: [TEST_MODE_ANSWER('movies'), TEST_FILES_ANSWER([])],
+      },
+    })
+
+    await main()
+
+    t.strictSame(
+      mockConfPackageState.values,
+      DEFAULT_MOCK_CONF_PACKAGE_STATE().values,
+      'conf matches',
+    )
+  })
 })
 
 t.test('args', async t => {
@@ -355,7 +396,7 @@ t.test('args', async t => {
 
     await main()
 
-    t.strictSame(mockConfPackageState.values, {}, 'conf matches')
+    t.strictSame(mockConfPackageState.values, {version: 2}, 'conf matches')
 
     process.argv = argv
   })
@@ -386,6 +427,46 @@ t.test('args', async t => {
     t.ok(exitStub.calledOnce, 'exits')
 
     restore()
+
+    process.argv = argv
+  })
+
+  t.test('uses profile', async t => {
+    const mockFSPackageState = {
+      entries: {
+        [TEST_INPUT_DIR]: 'directory',
+      },
+    }
+
+    const mockConfPackageState =
+      DEFAULT_MOCK_CONF_PACKAGE_STATE(TEST_PROFILE_NAME)
+
+    const {main} = requireMockMainModule({
+      fsPackageState: mockFSPackageState,
+      confPackageState: mockConfPackageState,
+      inquirerPackageState: {
+        answers: [TEST_MODE_ANSWER('movies'), TEST_FILES_ANSWER([])],
+      },
+    })
+
+    const argv = process.argv
+    process.argv = [argv[0], argv[1], '--profile', TEST_PROFILE_NAME]
+
+    await main()
+
+    t.strictSame(
+      mockConfPackageState.values,
+      {
+        version: 2,
+        [`profiles.${TEST_PROFILE_NAME}.tmdbAccessToken`]:
+          TEST_TMDB_ACCESS_TOKEN,
+        [`profiles.${TEST_PROFILE_NAME}.inputDir`]: TEST_INPUT_DIR,
+        [`profiles.${TEST_PROFILE_NAME}.moviesDir`]: TEST_MOVIES_DIR,
+        [`profiles.${TEST_PROFILE_NAME}.showsDir`]: TEST_SHOWS_DIR,
+        [`profiles.${TEST_PROFILE_NAME}.renameMK3DToMKV`]: true,
+      },
+      'conf matches',
+    )
 
     process.argv = argv
   })
@@ -1353,8 +1434,8 @@ t.test('mk3d to mkv', async t => {
 
     const mockConfPackageState = {
       values: {
-        ...DEFAULT_MOCK_CONF_PACKAGE_STATE.values,
-        renameMK3DToMKV: false,
+        ...DEFAULT_MOCK_CONF_PACKAGE_STATE(DEFAULT_PROFILE_NAME).values,
+        [`profiles.${DEFAULT_PROFILE_NAME}.renameMK3DToMKV`]: false,
       },
     }
 

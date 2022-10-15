@@ -29,6 +29,7 @@ function pad(number) {
   return String(number).padStart(2, '0')
 }
 
+const TEST_PROFILE_NAME = 'test-profile-name'
 const TEST_TMDB_ACCESS_TOKEN = 'test-tmdb-access-token'
 const TEST_INPUT_DIR = 'test-input-dir'
 const TEST_MOVIES_DIR = 'test-movies-dir'
@@ -650,6 +651,7 @@ const TEST_SKIPPING_ANSWER = filename => ({
 module.exports = {
   clone,
   immediate,
+  TEST_PROFILE_NAME,
   TEST_TMDB_ACCESS_TOKEN,
   TEST_TMDB_ACCESS_TOKEN_ANSWER,
   TEST_TMDB_MOVIE,
