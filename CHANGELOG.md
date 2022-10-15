@@ -8,20 +8,20 @@ and this project adheres to
 
 ## 2.1.0 - 2022-09-15
 
-### Added
+### Features
 
 - When no results are found, you are now prompted to enter a title.
 - Files can be skipped by entering a blank title when prompted or by choosing
   the Skip option in a list of results.
 
-### Fixed
+### Fixes
 
 - Fixed a bug where the second episode title would not be appended to the
   filename if it could not be matched but was selected from a list.
 
 ## 2.0.1 - 2022-09-14
 
-### Fixed
+### Fixes
 
 - Fixed typo for word `unable`.
 
@@ -31,20 +31,20 @@ and this project adheres to
 
 - Years are always included in TV show folders and filenames.
 
-### Fixed
+### Fixes
 
 - Fixed a bug where a second episode number was erroneously matched.
 
 ## 1.1.0 - 2022-09-11
 
-### Added
+### Features
 
 - A second episode can be matched in a filename, e.g.
   `The Office (2005) - S01E01-E02.mkv`.
 
 ## 1.0.1 - 2022-09-04
 
-### Changed
+### Fixes
 
 - Fixed a bug where inquirer only supported `import` instead of `require`.
 
@@ -55,107 +55,107 @@ and this project adheres to
 - Support for Node.js v12 has been removed. The mimimum supported version is
   v14.
 
-### Added
+### Features
 
 - Support for TV show years and season/episode number separates by space wrapped
   hyphens, e.g. `The Office (2005) - S01E01 - Pilot.mkv`.
 
 ## 0.8.0 - 2022-02-05
 
-### Added
+### Features
 
 - Years in TV show filenames are now supported.
 
 ## 0.7.1 - 2022-01-13
 
-### Changed
+### Fixes
 
 - Filenames will be shown instead of titles when multiple results are found.
 
 ## 0.7.0 - 2022-01-08
 
-### Added
+### Features
 
 - Spaces in filenames for movies are now supported. The year can be surrounded
   by parentheses.
 
-### Fixed
+### Fixes
 
 - Fixed a bug that caused the the title from TMDb to not be used.
 - Fixed a typo in the help.
 
 ## 0.6.2 - 2022-01-08
 
-### Fixed
+### Fixes
 
 - Added missing documentation for the Rename MK3D to MKV setting.
 
 ## 0.6.1 - 2022-01-08
 
-### Fixed
+### Fixes
 
 - Fixed a bug that caused the Rename MK3D to MKV setting to not save.
 
 ## 0.6.0 - 2022-01-08
 
-### Added
+### Features
 
 - `*.mk3d` files are now renamed to `*.mkv` since Plex does not support `*.mk3d`
   files. This setting can be configured.
 
 ## 0.5.0 - 2022-01-08
 
-### Added
+### Features
 
 - `*.mk3d` files are now supported.
 
 ## 0.4.1 - 2021-12-05
 
-### Fixed
+### Fixes
 
 - Patched a security vulnerability.
 
 ## 0.4.0 - 2021-12-05
 
-### Added
+### Features
 
 - Command line arguments are now supported for overriding configuration on a per
   run basis.
 
 ## 0.3.0 - 2021-06-07
 
-### Fixed
+### Fixes
 
 - Spaces in filenames for TV shows are now supported.
 
 ## 0.2.1 - 2021-04-14
 
-### Fixed
+### Fixes
 
 - Letter casing is ignored when matching.
 
 ## 0.2.0 - 2020-07-06
 
-### Added
+### Features
 
 - Episode numbers are shown in lists.
 - Data is cached to reduce API calls.
 
 ## 0.1.2 - 2020-06-15
 
-### Fixed
+### Fixes
 
 - TV shows are now moved to their correct season folder.
 
 ## 0.1.1 - 2020-05-17
 
-### Fixed
+### Fixes
 
 - Fixed an issue with package-lock.json produced a warning regarding ESLint.
 
 ## 0.1.0 - 2020-05-17
 
-### Added
+### Features
 
 - All features necessary to fetch data from TMDb and rename movie and TV show
   files.
