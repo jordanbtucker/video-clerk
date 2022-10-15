@@ -8,6 +8,8 @@ and this project adheres to
 
 ## 2.3.0 - 2022-10-15
 
+### Features
+
 - Profiles can be reconfigured via the `--reconf` command line argument.
 
 ## 2.2.0 - 2022-10-15
