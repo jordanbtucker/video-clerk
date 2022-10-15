@@ -471,6 +471,53 @@ t.test('args', async t => {
     process.argv = argv
   })
 
+  t.test('reconfigures profile', async t => {
+    const mockFSPackageState = {
+      entries: {
+        [TEST_INPUT_DIR]: 'directory',
+      },
+    }
+
+    const mockConfPackageState = DEFAULT_MOCK_CONF_PACKAGE_STATE()
+
+    const {main} = requireMockMainModule({
+      fsPackageState: mockFSPackageState,
+      confPackageState: mockConfPackageState,
+      inquirerPackageState: {
+        answers: [
+          TEST_TMDB_ACCESS_TOKEN_ANSWER(),
+          TEST_INPUT_DIR_ANSWER(),
+          TEST_MOVIES_DIR_ANSWER(),
+          TEST_SHOWS_DIR_ANSWER(),
+          TEST_RENAME_MK3D_FILES_ANSWER(),
+          TEST_MODE_ANSWER('movies'),
+          TEST_FILES_ANSWER([]),
+        ],
+      },
+    })
+
+    const argv = process.argv
+    process.argv = [argv[0], argv[1], '--reconf']
+
+    await main()
+
+    t.strictSame(
+      mockConfPackageState.values,
+      {
+        version: 2,
+        [`profiles.${DEFAULT_PROFILE_NAME}.tmdbAccessToken`]:
+          TEST_TMDB_ACCESS_TOKEN,
+        [`profiles.${DEFAULT_PROFILE_NAME}.inputDir`]: TEST_INPUT_DIR,
+        [`profiles.${DEFAULT_PROFILE_NAME}.moviesDir`]: TEST_MOVIES_DIR,
+        [`profiles.${DEFAULT_PROFILE_NAME}.showsDir`]: TEST_SHOWS_DIR,
+        [`profiles.${DEFAULT_PROFILE_NAME}.renameMK3DToMKV`]: true,
+      },
+      'conf matches',
+    )
+
+    process.argv = argv
+  })
+
   t.test('throws on unknown options', async t => {
     const mockFSPackageState = {
       entries: {
