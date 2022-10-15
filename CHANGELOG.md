@@ -13,6 +13,7 @@ and this project adheres to
 - Profiles are available via the `--profile` command line argument. If omitted,
   the default profile will be used, which is the same as using
   `--profile default`.
+- Profiles can be reconfigured via the `--reconf` command line argument.
 
 ## 2.1.0 - 2022-09-15
 
