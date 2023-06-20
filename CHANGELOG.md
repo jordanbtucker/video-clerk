@@ -6,13 +6,13 @@ The format is based on [Keep a Changelog](https://keepachangelog.com/en/1.0.0/),
 and this project adheres to
 [Semantic Versioning](https://semver.org/spec/v2.0.0.html).
 
-## 2.3.0 - 2022-10-15
+## [2.3.0] - 2022-10-15
 
 ### Features
 
 - Profiles can be reconfigured via the `--reconf` command line argument.
 
-## 2.2.0 - 2022-10-15
+## [2.2.0] - 2022-10-15
 
 ### Features
 
@@ -20,7 +20,7 @@ and this project adheres to
   the default profile will be used, which is the same as using
   `--profile default`.
 
-## 2.1.0 - 2022-09-15
+## [2.1.0] - 2022-09-15
 
 ### Features
 
@@ -33,13 +33,13 @@ and this project adheres to
 - Fixed a bug where the second episode title would not be appended to the
   filename if it could not be matched but was selected from a list.
 
-## 2.0.1 - 2022-09-14
+## [2.0.1] - 2022-09-14
 
 ### Fixes
 
 - Fixed typo for word `unable`.
 
-## 2.0.0 - 2022-09-14
+## [2.0.0] - 2022-09-14
 
 ### BREAKING CHANGES
 
@@ -49,20 +49,20 @@ and this project adheres to
 
 - Fixed a bug where a second episode number was erroneously matched.
 
-## 1.1.0 - 2022-09-11
+## [1.1.0] - 2022-09-11
 
 ### Features
 
 - A second episode can be matched in a filename, e.g.
   `The Office (2005) - S01E01-E02.mkv`.
 
-## 1.0.1 - 2022-09-04
+## [1.0.1] - 2022-09-04
 
 ### Fixes
 
 - Fixed a bug where inquirer only supported `import` instead of `require`.
 
-## 1.0.0 - 2022-09-04
+## [1.0.0] - 2022-09-04
 
 ### BREAKING CHANGES
 
@@ -74,19 +74,19 @@ and this project adheres to
 - Support for TV show years and season/episode number separates by space wrapped
   hyphens, e.g. `The Office (2005) - S01E01 - Pilot.mkv`.
 
-## 0.8.0 - 2022-02-05
+## [0.8.0] - 2022-02-05
 
 ### Features
 
 - Years in TV show filenames are now supported.
 
-## 0.7.1 - 2022-01-13
+## [0.7.1] - 2022-01-13
 
 ### Fixes
 
 - Filenames will be shown instead of titles when multiple results are found.
 
-## 0.7.0 - 2022-01-08
+## [0.7.0] - 2022-01-08
 
 ### Features
 
@@ -98,78 +98,102 @@ and this project adheres to
 - Fixed a bug that caused the the title from TMDb to not be used.
 - Fixed a typo in the help.
 
-## 0.6.2 - 2022-01-08
+## [0.6.2] - 2022-01-08
 
 ### Fixes
 
 - Added missing documentation for the Rename MK3D to MKV setting.
 
-## 0.6.1 - 2022-01-08
+## [0.6.1] - 2022-01-08
 
 ### Fixes
 
 - Fixed a bug that caused the Rename MK3D to MKV setting to not save.
 
-## 0.6.0 - 2022-01-08
+## [0.6.0] - 2022-01-08
 
 ### Features
 
 - `*.mk3d` files are now renamed to `*.mkv` since Plex does not support `*.mk3d`
   files. This setting can be configured.
 
-## 0.5.0 - 2022-01-08
+## [0.5.0] - 2022-01-08
 
 ### Features
 
 - `*.mk3d` files are now supported.
 
-## 0.4.1 - 2021-12-05
+## [0.4.1] - 2021-12-05
 
 ### Fixes
 
 - Patched a security vulnerability.
 
-## 0.4.0 - 2021-12-05
+## [0.4.0] - 2021-12-05
 
 ### Features
 
 - Command line arguments are now supported for overriding configuration on a per
   run basis.
 
-## 0.3.0 - 2021-06-07
+## [0.3.0] - 2021-06-07
 
 ### Fixes
 
 - Spaces in filenames for TV shows are now supported.
 
-## 0.2.1 - 2021-04-14
+## [0.2.1] - 2021-04-14
 
 ### Fixes
 
 - Letter casing is ignored when matching.
 
-## 0.2.0 - 2020-07-06
+## [0.2.0] - 2020-07-06
 
 ### Features
 
 - Episode numbers are shown in lists.
 - Data is cached to reduce API calls.
 
-## 0.1.2 - 2020-06-15
+## [0.1.2] - 2020-06-15
 
 ### Fixes
 
 - TV shows are now moved to their correct season folder.
 
-## 0.1.1 - 2020-05-17
+## [0.1.1] - 2020-05-17
 
 ### Fixes
 
 - Fixed an issue with package-lock.json produced a warning regarding ESLint.
 
-## 0.1.0 - 2020-05-17
+## [0.1.0] - 2020-05-17
 
 ### Features
 
 - All features necessary to fetch data from TMDb and rename movie and TV show
   files.
+
+[0.1.0]: https://github.com/jordanbtucker/video-clerk/releases/tag/v0.1.0
+[0.1.1]: https://github.com/jordanbtucker/video-clerk/releases/tag/v0.1.1
+[0.1.2]: https://github.com/jordanbtucker/video-clerk/releases/tag/v0.1.2
+[0.2.0]: https://github.com/jordanbtucker/video-clerk/releases/tag/v0.2.0
+[0.2.1]: https://github.com/jordanbtucker/video-clerk/releases/tag/v0.2.1
+[0.3.0]: https://github.com/jordanbtucker/video-clerk/releases/tag/v0.3.0
+[0.4.0]: https://github.com/jordanbtucker/video-clerk/releases/tag/v0.4.0
+[0.4.1]: https://github.com/jordanbtucker/video-clerk/releases/tag/v0.4.1
+[0.5.0]: https://github.com/jordanbtucker/video-clerk/releases/tag/v0.5.0
+[0.6.0]: https://github.com/jordanbtucker/video-clerk/releases/tag/v0.6.0
+[0.6.1]: https://github.com/jordanbtucker/video-clerk/releases/tag/v0.6.1
+[0.6.2]: https://github.com/jordanbtucker/video-clerk/releases/tag/v0.6.2
+[0.7.0]: https://github.com/jordanbtucker/video-clerk/releases/tag/v0.7.0
+[0.7.1]: https://github.com/jordanbtucker/video-clerk/releases/tag/v0.7.1
+[0.8.0]: https://github.com/jordanbtucker/video-clerk/releases/tag/v0.8.0
+[1.0.0]: https://github.com/jordanbtucker/video-clerk/releases/tag/v1.0.0
+[1.0.1]: https://github.com/jordanbtucker/video-clerk/releases/tag/v1.0.1
+[1.1.0]: https://github.com/jordanbtucker/video-clerk/releases/tag/v1.1.0
+[2.0.0]: https://github.com/jordanbtucker/video-clerk/releases/tag/v2.0.0
+[2.0.1]: https://github.com/jordanbtucker/video-clerk/releases/tag/v2.0.1
+[2.1.0]: https://github.com/jordanbtucker/video-clerk/releases/tag/v2.1.0
+[2.2.0]: https://github.com/jordanbtucker/video-clerk/releases/tag/v2.2.0
+[2.3.0]: https://github.com/jordanbtucker/video-clerk/releases/tag/v2.3.0
