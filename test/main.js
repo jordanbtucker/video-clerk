@@ -871,6 +871,70 @@ t.test('movies', async t => {
       )
     })
   })
+
+  t.test('tmdb error', async t => {
+    t.test('with message', async t => {
+      const mockFSPackageState = {
+        entries: {
+          [TEST_INPUT_DIR]: 'directory',
+          [TEST_INPUT_MOVIE_FILE_PATH(1)]: 'file',
+        },
+      }
+
+      const {main} = requireMockMainModule({
+        fsPackageState: mockFSPackageState,
+        crossFetchPackageState: {
+          ...DEFAULT_MOCK_CROSS_FETCH_PACKAGE_STATE,
+          error: 'Internal Server Error',
+        },
+        inquirerPackageState: {
+          answers: [
+            TEST_MODE_ANSWER('movies'),
+            TEST_FILES_ANSWER([TEST_INPUT_MOVIE_FILE_NAME(1)]),
+            TEST_MULTIPLE_RESULTS_ANSWER(TEST_INPUT_MOVIE_FILE_NAME(1), 1),
+            TEST_MOVIE_RENAME_ANSWER(1),
+          ],
+        },
+      })
+
+      t.rejects(
+        () => main(),
+        {message: 'Internal Server Error'},
+        'error message',
+      )
+    })
+
+    t.test('without message', async t => {
+      const mockFSPackageState = {
+        entries: {
+          [TEST_INPUT_DIR]: 'directory',
+          [TEST_INPUT_MOVIE_FILE_PATH(1)]: 'file',
+        },
+      }
+
+      const {main} = requireMockMainModule({
+        fsPackageState: mockFSPackageState,
+        crossFetchPackageState: {
+          ...DEFAULT_MOCK_CROSS_FETCH_PACKAGE_STATE,
+          error: true,
+        },
+        inquirerPackageState: {
+          answers: [
+            TEST_MODE_ANSWER('movies'),
+            TEST_FILES_ANSWER([TEST_INPUT_MOVIE_FILE_NAME(1)]),
+            TEST_MULTIPLE_RESULTS_ANSWER(TEST_INPUT_MOVIE_FILE_NAME(1), 1),
+            TEST_MOVIE_RENAME_ANSWER(1),
+          ],
+        },
+      })
+
+      t.rejects(
+        () => main(),
+        {message: 'An unknown error occurred while fetching data from TMDb.'},
+        'error message',
+      )
+    })
+  })
 })
 
 t.test('shows', async t => {

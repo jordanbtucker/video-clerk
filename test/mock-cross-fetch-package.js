@@ -5,6 +5,7 @@ const {clone, immediate} = require('./util')
  * @property {import('./util').TMDbMovie[]} [movies]
  * @property {import('./util').TMDbShow[]} [shows]
  * @property {boolean} [returnMultipleResults]
+ * @property {string | boolean} [error]
  */
 
 /**
@@ -43,6 +44,19 @@ class MockCrossFetchResponse {
     this._state = state
     /** @type {URL} */
     this._url = url
+
+    if (this._state.error != null) {
+      this._body = {
+        success: false,
+        status_code: 1,
+      }
+
+      if (typeof this._state.error === 'string') {
+        this._body.status_message = this._state.error
+      }
+
+      return this._error()
+    }
 
     this.url = url.href
 
@@ -111,6 +125,12 @@ class MockCrossFetchResponse {
     this.ok = false
     this.status = 404
     this.statusText = 'Not Found'
+  }
+
+  _error() {
+    this.ok = false
+    this.status = 500
+    this.statusText = 'Internal Server Error'
   }
 
   async json() {
